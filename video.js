@@ -15,7 +15,7 @@ import Video from 'react-native-video';
 import EventEmitter from "react-native-eventemitter";
 import { Icon } from 'react-native-elements';
 
-import { setStyle } from './index';
+import { setStyle } from './style';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
