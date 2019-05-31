@@ -22,8 +22,6 @@ import { setStyle } from './style';
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
-let dataVideo = '';
-
 class HiVideo extends Component{
 
     
@@ -50,19 +48,6 @@ class HiVideo extends Component{
             }
           })
         })
-    }
-
-    _sourceStreaming(){
-        if(this.props.source){
-            console.log('SOURCE: ', this.props.source);
-            RNFetchBlob.fs.readStream(this.props.source)
-            .then((stream) => {
-                stream.onEnd(() => dataVideo );
-                stream.onError(() => Alert.alert('ERRO', 'Estamos com problemas para conectar com o servidor! Tente novamente em alguns segundos!'));
-                stream.onData(chunk => dataVideo += chunk);
-                stream.open();
-            })
-        }
     }
 
     _setGoogleCast(){
@@ -140,7 +125,6 @@ class HiVideo extends Component{
    }
 
    async componentDidMount(){
-       this._sourceStreaming();
        if(this.state.GoogleCast){
         this.registerListeners(this);
         let castState = await this.state.GoogleCast.getCastState();
@@ -150,8 +134,6 @@ class HiVideo extends Component{
    }
 
     _onLoadStart = payload =>{
-        // console.log('onLoadStart ', payload);
-        // console.log('this.vid: ', this.vid)
     }
 
     _onLoad = (event) => {
