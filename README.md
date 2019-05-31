@@ -48,6 +48,9 @@ objeto de estilo de View
 ###### shouldPlay
 `true` (default) or `false`
 
+###### playInBackground
+`true` or `false` (default)
+
 ###### onFullScreen (void)
 método para ser executado quando o vídeo entrar em fullscreen
 

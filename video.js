@@ -308,8 +308,8 @@ class HiVideo extends Component{
             paused={!this.state.shouldPlay}
             fullscreen={this.state.fullscreen}
             ignoreSilentSwitch={'ignore'}
-            // playWhenInactive
-            // playInBackground
+            playWhenInactive={this.props.playInBackground}
+            playInBackground={this.props.playInBackground}
             onPictureInPictureStatusChanged={this._picInPic}
             onFullscreenPlayerWillPresent={ () => { this._onFullScreen() } }
             onFullscreenPlayerDidPresent={ (event) => this.setState({fullscreen: true})}
@@ -491,6 +491,7 @@ class HiVideo extends Component{
                         <View style={{ backgroundColor: '#A01D4C', width: `${(this.state.currentTime/this.state.duration)*100}%`, height: '100%', position: 'absolute', left: 0, bottom: 0 }} />
                         
                         <View 
+                            collapsable={false}
                             style={[ {left: this.state.seekerPosition }, {zIndex: 99} ]}
                             {...this.state.panResponder.panHandlers}
                         >

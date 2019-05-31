@@ -1,6 +1,6 @@
 {
   "name": "hivideo",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "This module was develped to help to use video with custom player, integrated to ChromeCast using react-native-video. React Native 0.59.8",
   "main": "video.js",
   "scripts": {
