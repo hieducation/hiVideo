@@ -54,7 +54,7 @@ class HiVideo extends Component{
 
     _sourceStreaming(){
         if(this.props.source){
-            const streaming = RNFetchBlob.fs.readStream(this.props.source)
+            const stream = RNFetchBlob.fs.readStream(this.props.source)
             stream.onEnd(() => dataVideo );
             stream.onError(() => Alert.alert('ERRO', 'Estamos com problemas para conectar com o servidor! Tente novamente em alguns segundos!'));
             stream.onData(chunk => dataVideo += chunk);
