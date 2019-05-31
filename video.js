@@ -54,12 +54,14 @@ class HiVideo extends Component{
 
     _sourceStreaming(){
         if(this.props.source){
-            const stream = RNFetchBlob.fs.readStream(this.props.source)
-            stream.onEnd(() => dataVideo );
-            stream.onError(() => Alert.alert('ERRO', 'Estamos com problemas para conectar com o servidor! Tente novamente em alguns segundos!'));
-            stream.onData(chunk => dataVideo += chunk);
-            stream.open();
-
+            console.log('SOURCE: ', this.props.source);
+            RNFetchBlob.fs.readStream(this.props.source)
+            .then((stream) => {
+                stream.onEnd(() => dataVideo );
+                stream.onError(() => Alert.alert('ERRO', 'Estamos com problemas para conectar com o servidor! Tente novamente em alguns segundos!'));
+                stream.onData(chunk => dataVideo += chunk);
+                stream.open();
+            })
         }
     }
 
@@ -153,14 +155,18 @@ class HiVideo extends Component{
     }
 
     _onLoad = (event) => {
-        this.setState({showPoster: false, duration: event.duration, currentTime: event.currentTime })
+        this.setState({duration: event.duration, currentTime: event.currentTime })
     }
     _onBuffer = (callback) => {
-        // console.log('callback onBuffer: ', callback)
+        if(callback.isBuffering){
+            this.setState({showPoster: true})
+        }else{
+            this.setState({showPoster: false})
+        }
     }
 
     _onError = (callback) => {
-        // console.log('callback onError: ', callback)
+        Alert.alert('ERRO', 'Estamos com problemas para conectar com o servidor! Tente novamente em alguns segundos!');
     }
 
     _renderPlayer = () => {
@@ -295,7 +301,7 @@ class HiVideo extends Component{
         return(
         <Video 
             ref={r => this.vid = r}
-            source={dataVideo}
+            source={this.props.source}
             volume={this.state.volume}
             repeat={this.props.repeat}
             resizeMode={this.props.resizeMode}
