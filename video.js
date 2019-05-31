@@ -22,9 +22,10 @@ import { setStyle } from './style';
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
+let dataVideo = '';
+
 class HiVideo extends Component{
 
-    dataVideo = '';
     
     /// funções para GOOGLECAST
     registerListeners = (element) => {
