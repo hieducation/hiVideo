@@ -7,6 +7,7 @@ import {
     Text, 
     Dimensions, 
     Platform, 
+    Alert,
     Modal,
     Animated,
     PanResponder
@@ -14,6 +15,7 @@ import {
 import Video from 'react-native-video';
 import EventEmitter from "react-native-eventemitter";
 import { Icon } from 'react-native-elements';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import { setStyle } from './style';
 
@@ -22,6 +24,8 @@ const deviceHeight = Dimensions.get('window').height;
 
 class HiVideo extends Component{
 
+    dataVideo = '';
+    
     /// funções para GOOGLECAST
     registerListeners = (element) => {
         const events = `
@@ -45,6 +49,17 @@ class HiVideo extends Component{
             }
           })
         })
+    }
+
+    _sourceStreaming(){
+        if(this.props.source){
+            const streaming = RNFetchBlob.fs.readStream(this.props.source)
+            stream.onEnd(() => dataVideo );
+            stream.onError(() => Alert.alert('ERRO', 'Estamos com problemas para conectar com o servidor! Tente novamente em alguns segundos!'));
+            stream.onData(chunk => dataVideo += chunk);
+            stream.open();
+
+        }
     }
 
     _setGoogleCast(){
@@ -122,6 +137,7 @@ class HiVideo extends Component{
    }
 
    async componentDidMount(){
+       this._sourceStreaming();
        if(this.state.GoogleCast){
         this.registerListeners(this);
         let castState = await this.state.GoogleCast.getCastState();
@@ -278,7 +294,7 @@ class HiVideo extends Component{
         return(
         <Video 
             ref={r => this.vid = r}
-            source={this.props.source}
+            source={dataVideo}
             volume={this.state.volume}
             repeat={this.props.repeat}
             resizeMode={this.props.resizeMode}
