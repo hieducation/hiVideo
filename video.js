@@ -82,13 +82,15 @@ class HiVideo extends Component{
             onStartShouldSetPanResponder: ( evt, gestureState ) => true,
             onMoveShouldSetPanResponder: ( evt, gestureState ) => true,
             onPanResponderGrant: ( evt, gestureState ) => {
-            this.setState( {seeking: true}, () => this._showPlayer() );
-           },
-           onPanResponderMove: (event, gesture) => {
-            const position = this.state.seekerOffset + gesture.dx;
-            this.setSeekerPosition( position );
-           },
-           onPanResponderRelease: (event, gesture) => {
+                console.log('onPanResponderGrant ', evt, gestureState)
+                this.setState( {seeking: true}, () => this._showPlayer() );
+            },
+            onPanResponderMove: (event, gesture) => {
+                console.log('onPanResponderMove ', event, gesture);
+                const position = this.state.seekerOffset + gesture.dx;
+                this.setSeekerPosition( position );
+            },
+            onPanResponderRelease: (event, gesture) => {
                const time = this._calculateTimeFromSeekerPosition();
                let state = this.state;
                if ( time >= state.duration && ! state.showPoster ) {
@@ -167,13 +169,14 @@ class HiVideo extends Component{
             this.state.playerAnimation,
             { toValue: 1, duration: 200 })
             .start(() => {
-                if(this.state.shouldPlay && !this.state.seeking) {
-                    Animated.sequence([
-                      Animated.delay(1500),
-                      Animated.timing( this.state.playerAnimation,
-                          { toValue: 0, duration: 200 } )
-                  ])
-                  .start(); }                
+                setTimeout(()=> {
+                    if(this.state.shouldPlay && !this.state.seeking) {
+                        Animated.sequence([
+                          Animated.timing( this.state.playerAnimation,
+                              { toValue: 0, duration: 200 } )
+                      ])
+                      .start(); }                
+                }, this.props.delay || 2000)
             }
           )
     }
@@ -475,6 +478,7 @@ class HiVideo extends Component{
                     <View 
                         style={{ backgroundColor: '#979797', width: '90%', height: 5, flex: 1, position: 'absolute', bottom: 10, left: '5%', zIndex: 99}}
                         onLayout={ event => this.state.seekerWidth = event.nativeEvent.layout.width }
+                        {...this.state.panResponder.panHandlers}
                     >
                         <View style={{ backgroundColor: '#D8D8D8', width: `${(this.state.playableDuration/this.state.duration)*100}%`, height: '100%', position: 'absolute', left: 0, bottom: 0 }} />
                         <View style={{ backgroundColor: '#A01D4C', width: `${(this.state.currentTime/this.state.duration)*100}%`, height: '100%', position: 'absolute', left: 0, bottom: 0 }} />
@@ -482,7 +486,6 @@ class HiVideo extends Component{
                         <View 
                             collapsable={false}
                             style={[ {left: this.state.seekerPosition }, {zIndex: 99} ]}
-                            {...this.state.panResponder.panHandlers}
                         >
                             <View 
                                 style={{
@@ -492,9 +495,10 @@ class HiVideo extends Component{
                                     borderRadius: 20, 
                                     position: 'absolute',
                                     marginLeft: -5, 
-                                    marginTop: -8
+                                    marginTop: -8,
+                                    zIndex: 1
                                     }}
-                                
+                                    {...this.state.panResponder.panHandlers}
                             />
                         </View>
                     </View>
