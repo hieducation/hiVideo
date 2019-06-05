@@ -268,8 +268,8 @@ class HiVideo extends Component{
         if(showPoster){
             return(
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <Image 
-                        source={require('../../assets/images/loading_buffer.gif')} 
+                    <Image
+                        source={this.props.loading ? this.props.loading : require('../../assets/images/loading_buffer.gif')} 
                         style={[{ position: 'absolute', zIndex: 1, opacity: 0.5, height: 70, width: 70 }] } 
                         resizeMode='contain'
                     />
