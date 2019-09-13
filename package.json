@@ -1,7 +1,7 @@
 {
   "name": "hiVideo",
-  "version": "0.5.9",
-  "description": "This module was develped to help to use video with custom player, integrated to ChromeCast using react-native-video. React Native 0.59.8",
+  "version": "0.6.0",
+  "description": "This module was develped to help to use video with custom player, integrated to ChromeCast using react-native-video. React Native >=0.60.4",
   "main": "video.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,7 +19,7 @@
     "react": "^16.8.6",
     "react-native-elements": "^1.1.0",
     "react-native-eventemitter": "0.0.1",
-    "react-native-video": "^4.4.1",
+    "react-native-video": "^5.0.2",
     "rn-fetch-blob": "^0.10.15"
   }
 }
